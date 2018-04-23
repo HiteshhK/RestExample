@@ -53,7 +53,7 @@ public class Employee {
 	 */
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", age=" + age + ", name=" + name + "]";
+		return "\n{id:" + id + ", age:" + age + ", name:" + name + "}";
 	}
 	
 	

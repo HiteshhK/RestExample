@@ -3,34 +3,49 @@ package com.tutorialspoint;
 import java.util.List;
 
 import org.hibernate.query.Query;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class EmployeeDAO {
 	private static SessionFactory factory;
-	public void addEmployee(Employee bean){
-		System.out.println("inside create method");
-		
-		factory = SessionConnect.getSessionFatoryObject();
-        Session session = factory.openSession();
-        System.out.println("created session");
-        Transaction tx = session.beginTransaction();
-        addEmployee(session,bean);        
-        tx.commit();
-        session.close();
-        
-    }
     
-    private void addEmployee(Session session, Employee bean){
+    public boolean addEmployee(Employee bean){
+    	System.out.println("inside create method");
+		factory = SessionConnect.getSessionFatoryObject();
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+			
 //        Employee employee = new Employee();
-        System.out.println("inside addEmployee method"+bean.getName());
-        /*employee.setName(bean.getName());
-        employee.setAge(bean.getAge());
-        employee*/
-        System.out.println(bean);
-        session.save(bean);
-        System.out.println("saved successfully");
+			System.out.println("inside addEmployee method "+bean.getName());
+			/*employee.setName(bean.getName());
+			employee.setAge(bean.getAge());
+			employee*/
+			try {
+				session.save(bean);
+				session.flush();
+				session.clear();
+			
+			tx.commit();
+			
+			System.out.println("saved successfully");
+			return true;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			 if (tx != null) tx.rollback();
+			 System.out.println("error in saving");
+			 return false;
+			    
+		}
+			catch(Exception e) {
+				System.out.println("main error");
+				e.printStackTrace();
+				return false;
+			}
+			finally {
+			session.close();
+		}
     }
     
     public List<Employee> getEmployees(){

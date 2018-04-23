@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -42,22 +43,27 @@ public class MyResource {
     @GET
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addEmployee(Employee emp){
+    public String addEmployee(@QueryParam("name") String name,@QueryParam("id") Integer id,@QueryParam("age") Integer age){
         try {
-        	emp = new Employee();
-        	emp.setId(2);
-			emp.setName("suresh");
-			emp.setAge(23);
+        	Employee emp = new Employee();
+        	emp.setId(id);
+			emp.setName(name);
+			emp.setAge(age);
 			System.out.println("called");
 			        
 			EmployeeDAO dao = new EmployeeDAO();
-			dao.addEmployee(emp);
+			boolean flag = (dao.addEmployee(emp));
+			if(flag == false) {
+				System.out.println("not added");
+				return "{result:could not add the entity}";
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
-        return Response.ok().build();
+        return "{result:added successfully}";
     }
     
     @PUT
@@ -86,9 +92,9 @@ public class MyResource {
     public static void main(String[] args) {
     	System.out.println("inside main");
     	Employee emp = new Employee();
-    	emp.setId(1);
-    	emp.setAge(21);
-    	emp.setName("hitesh");
+    	emp.setId(3);
+    	emp.setAge(24);
+    	emp.setName("amit");
     	EmployeeDAO dao = new EmployeeDAO();
     	dao.addEmployee(emp);
     	
