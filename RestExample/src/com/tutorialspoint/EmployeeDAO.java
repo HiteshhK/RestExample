@@ -51,7 +51,8 @@ public class EmployeeDAO {
     public List<Employee> getEmployees(){
     	factory = SessionConnect.getSessionFatoryObject();
         Session session = factory.openSession();     
-        Query query = session.createQuery("from Employee");
+//        Query query = session.createQuery("from Employee");
+        Query query = session.getNamedQuery("@GET_ALL_EMPLOYEES");
         List<Employee> employees =  query.list();
         session.close();
         return employees;

@@ -1,4 +1,4 @@
-package com.tutorialspoint;
+package com.hql.aggregation;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,13 +25,14 @@ import com.tutorialspoint.EmployeeDAO;
 public class MyResource {
  
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON})
     public String getEmployee() {
         EmployeeDAO dao = new EmployeeDAO();
         List employees = dao.getEmployees();
         System.out.println(employees);
         return "{\"result\":" +employees+"}";
-    }
+//        return Response.ok().entity(employees).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD").build();
+        }
  
     @GET
     @Path("/test")
