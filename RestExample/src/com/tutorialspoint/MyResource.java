@@ -24,14 +24,17 @@ import com.tutorialspoint.EmployeeDAO;
 @Path("/employees")
 public class MyResource {
  
-    @GET
+  @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getEmployee() {
+    public Response getEmployee() {
         EmployeeDAO dao = new EmployeeDAO();
         List employees = dao.getEmployees();
-        System.out.println(employees);
-        return "{\"result\":" +employees+"}";
-//        return Response.ok().entity(employees).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD").build();
+        Object obj = "{\"result\":" +employees+"}";
+        System.out.println(obj);
+        return Response.ok(obj)
+        .header("Access-Control-Allow-Origin", "http://localhost:3000")
+        .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+        .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
         }
  
     @GET
